@@ -34,6 +34,7 @@ const Header = styled.header`
     font-weight: bold;
     font-size: 20px;
     left: 10px;
+    bottom: 35px;
     cursor: pointer;
   }
 `;
@@ -172,14 +173,12 @@ const Coin = () => {
     () => fetchCoinTickers(coinId)
   );
 
-    console.log(infoData, tickersData);
-
-  const loading = infoLoading || tickersLoading;
+  const loading = infoLoading || tickersLoading; // 두 로딩이 모두 끝나면 렌더링
   return (
     <Container>
       <Header>
         {/* 홈페이지에서 이동한 경우 / 아닌 경우 모두 name 렌더링 */}
-        <span onClick={goBack}>{"<-"}</span>
+        <span onClick={goBack}>&larr;</span>
         <Title>
           {state?.name ? state.name : loading ? "..." : infoData?.name}
         </Title>
@@ -224,7 +223,7 @@ const Coin = () => {
 
           <Routes>
             <Route path="price" element={<Price />} />
-            <Route path="chart" element={<Chart />} />
+            <Route path="chart" element={<Chart coinId={coinId} />} />
           </Routes>
         </>
       )}
