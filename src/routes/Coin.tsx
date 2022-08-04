@@ -12,6 +12,7 @@ import Chart from "./Chart";
 import Price from "./Price";
 import { fetchCoinInfo, fetchCoinTickers } from "../api";
 import { useQuery } from "@tanstack/react-query";
+import { Helmet } from "react-helmet";
 
 const Title = styled.h1`
   color: ${(props) => props.theme.accentColor};
@@ -31,10 +32,12 @@ const Header = styled.header`
   position: relative;
   span {
     position: absolute;
-    font-weight: bold;
-    font-size: 20px;
-    left: 10px;
-    bottom: 35px;
+    font-size: 16px;
+    left: 3px;
+    bottom: 30px;
+    background-color: #9b59b6;
+    padding: 5px;
+    border-radius: 5px;
     cursor: pointer;
   }
 `;
@@ -170,15 +173,23 @@ const Coin = () => {
   );
   const { isLoading: tickersLoading, data: tickersData } = useQuery<PriceData>(
     ["tickers", coinId],
-    () => fetchCoinTickers(coinId)
+    () => fetchCoinTickers(coinId),
+    {
+      refetchInterval: 5000, // 해당 쿼리를 5초마다 업데이트(다시 받아옴 refetch)
+    }
   );
 
   const loading = infoLoading || tickersLoading; // 두 로딩이 모두 끝나면 렌더링
   return (
     <Container>
+      <Helmet>
+        <title>
+          {state?.name ? state.name : loading ? "..." : infoData?.name}
+        </title>
+      </Helmet>
       <Header>
         {/* 홈페이지에서 이동한 경우 / 아닌 경우 모두 name 렌더링 */}
-        <span onClick={goBack}>&larr;</span>
+        <span onClick={goBack}>Back</span>
         <Title>
           {state?.name ? state.name : loading ? "..." : infoData?.name}
         </Title>
@@ -197,8 +208,8 @@ const Coin = () => {
               <span>{infoData?.symbol}</span>
             </OverviewItem>
             <OverviewItem>
-              <span>OPEN SOURCE:</span>
-              <span>{infoData?.open_source ? "Yes" : "No"}</span>
+              <span>PRICE:</span>
+              <span>{`$ ${tickersData?.quotes.USD.price.toFixed(3)}`}</span>
             </OverviewItem>
           </Overview>
           <Description>{infoData?.description}</Description>
@@ -222,7 +233,7 @@ const Coin = () => {
           </Tabs>
 
           <Routes>
-            <Route path="price" element={<Price />} />
+            <Route path="price" element={<Price coinId={coinId} />} />
             <Route path="chart" element={<Chart coinId={coinId} />} />
           </Routes>
         </>

@@ -2,7 +2,8 @@ import { useQuery } from "@tanstack/react-query";
 import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { fetchCoins } from './../api';
+import { fetchCoins } from "./../api";
+import { Helmet } from "react-helmet";
 
 const Title = styled.h1`
   color: ${(props) => props.theme.accentColor};
@@ -55,11 +56,12 @@ const Img = styled.img`
 `;
 
 const Coins = () => {
-  // useQuery(queryKey, fetch fn)
+  // useQuery(queryKey, fetch fn, options obj)
   const { isLoading, data } = useQuery<ICoin[]>(["allCoins"], fetchCoins);
 
-  console.log(data)
-  interface ICoin { // Interface Coin
+  console.log(data);
+  interface ICoin {
+    // Interface Coin
     id: string;
     name: string;
     symbol: string;
@@ -71,6 +73,9 @@ const Coins = () => {
 
   return (
     <Container>
+      <Helmet>
+        <title>Crypto Tracker!</title>
+      </Helmet>
       <Header>
         <Title>Crypto Tracker!</Title>
       </Header>

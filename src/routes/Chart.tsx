@@ -27,86 +27,105 @@ interface IHistorical {
 }
 
 const Chart = ({ coinId }: IChart) => {
-  const { isLoading, data } = useQuery<IHistorical[]>(["ohlcv"], () =>
-    fetchCoinHistory(coinId)
+  const { isLoading: chartLoading, data: chartData } = useQuery<IHistorical[]>(['chart', "ohlcv"], () =>
+    fetchCoinHistory(coinId),
+    {
+        refetchInterval: 5000, // 5초마다 refetch => 차트 업데이트
+    }
   );
 
   return (
     <div>
-      {isLoading || !data ? (
+      {chartLoading || !chartData ? (
         "Loading..."
       ) : (
         <ApexChart
-          type="line"
+          type="candlestick"
+          height={350}
           series={[
             {
-              name: "price",
-              data: data?.map((price) => parseFloat(price.close)),
+              name: "Price",
+              data: chartData?.map((price) => {
+                return {
+                  x: new Date(price.time_close * 1000),
+                  y: [
+                    parseFloat(price.open),
+                    parseFloat(price.high),
+                    parseFloat(price.low),
+                    parseFloat(price.close),
+                  ],
+                };
+              }),
             },
           ]}
           options={{
             theme: { mode: "dark" },
             chart: {
-              height: 500,
+              type: "candlestick",
+              height: 350,
               width: 500,
               background: "transparent",
               toolbar: {
-                show: false, // 맨 위 툴바(줌인/아웃/다운로드...) 생략
+                show: false,
               },
-            },
-            grid: {
-              show: false, // 가로 선 안보이게 설정
-            },
-            stroke: {
-              curve: "smooth", // 선 약간 둥글게
-              width: 4, // 선 굵기
             },
             xaxis: {
               type: "datetime",
-              labels: { show: false }, // x축 지표 안보이게
               axisTicks: { show: false }, // x축 scale 삭제
-              //axisBorder: {show: false} // x축 선 안보이게
-              categories: data?.map((price) => {
-                const date = new Date(price.time_close * 1000);
-                var year = date.getFullYear().toString(); //년도 뒤에 두자리
-                var month = ("0" + (date.getMonth() + 1)).slice(-2); //월 2자리 (01, 02 ... 12)
-                var day = ("0" + date.getDate()).slice(-2); //일 2자리 (01, 02 ... 31)
-                var hour = ("0" + date.getHours()).slice(-2); //시 2자리 (00, 01 ... 23)
-                var minute = ("0" + date.getMinutes()).slice(-2); //분 2자리 (00, 01 ... 59)
-                var second = ("0" + date.getSeconds()).slice(-2); //초 2자리 (00, 01 ... 59)
-
-                var returnDate =
-                  year +
-                  "-" +
-                  month +
-                  "-" +
-                  day +
-                  "- " +
-                  hour +
-                  ":" +
-                  minute +
-                  ":" +
-                  second;
-                return returnDate;
-              }), //  x축 값 라벨
             },
-            // yaxis: {
-            //     show: false // y축 지표 안보이게
-            // }
-            fill: {
-              type: "gradient",
-              gradient: {
-                gradientToColors: ["#0be881"], // 선 색깔 그라디언트 파란색
-                stops: [0, 100],
-              }, // 그라디언트 처음 0%부터 끝 100%까지 전역에 설정
+            yaxis: {
+              tooltip: {
+                enabled: true,
+              },
+              labels: {
+                show: false,
+              },
             },
-            colors: ["#0fbcf9"], // 선 색깔 = 기본 빨간색
+            plotOptions: {
+              candlestick: {
+                colors: {
+                  upward: "#3C90EB",
+                  downward: "#DF7D46",
+                },
+              },
+            },
             tooltip: {
               // 마우스 올리면 보이는 정보
-              y: {
-                // y축 정보
-                formatter: (value) => `$ ${value.toFixed(2)}`, // 넘어오는 값에 형식을 지정 => 소숫점 2자리까지
-              },
+              enabled: true,
+              y: [
+                {
+                  formatter: function (y) {
+                    if (typeof y !== "undefined") {
+                      return  "open: " + y.toFixed(2);
+                    }
+                    return y;
+                  },
+                },
+                {
+                  formatter: function (y) {
+                    if (typeof y !== "undefined") {
+                      return  "high: " + y.toFixed(2);
+                    }
+                    return y;
+                  },
+                },
+                {
+                  formatter: function (y) {
+                    if (typeof y !== "undefined") {
+                      return  "low: " + y.toFixed(2);
+                    }
+                    return y;
+                  },
+                },
+                {
+                  formatter: function (y) {
+                    if (typeof y !== "undefined") {
+                      return  "close: " + y.toFixed(2);
+                    }
+                    return y;
+                  },
+                },
+              ],
             },
           }}
         />
