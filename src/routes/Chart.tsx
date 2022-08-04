@@ -74,12 +74,7 @@ const Chart = ({ coinId }: IChart) => {
               axisTicks: { show: false }, // x축 scale 삭제
             },
             yaxis: {
-              tooltip: {
-                enabled: true,
-              },
-              labels: {
-                show: false,
-              },
+              show: false
             },
             plotOptions: {
               candlestick: {

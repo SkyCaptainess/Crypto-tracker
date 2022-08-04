@@ -13,6 +13,7 @@ import Price from "./Price";
 import { fetchCoinInfo, fetchCoinTickers } from "../api";
 import { useQuery } from "@tanstack/react-query";
 import { Helmet } from "react-helmet";
+import Spinner from '../img/spinner.gif';
 
 const Title = styled.h1`
   color: ${(props) => props.theme.accentColor};
@@ -45,8 +46,11 @@ const Header = styled.header`
 const Loader = styled.span`
   text-align: center;
   display: block;
-  margin-top: 20px;
-  font-size: 24px;
+  margin-top: 50px;
+  img{
+    width: 120px;
+    height: 120px;
+  }
 `;
 
 const Overview = styled.div`
@@ -195,7 +199,7 @@ const Coin = () => {
         </Title>
       </Header>
       {loading ? (
-        <Loader>Loading...</Loader>
+        <Loader><img src={Spinner} alt='Loading..' width='5%' /></Loader>
       ) : (
         <>
           <Overview>

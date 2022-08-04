@@ -4,10 +4,12 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { fetchCoins } from "./../api";
 import { Helmet } from "react-helmet";
+import Spinner from '../img/spinner.gif';
 
 const Title = styled.h1`
   color: ${(props) => props.theme.accentColor};
-  font-size: 38px;
+  font-size: 42px;
+  margin-bottom: 5px;
 `;
 
 const Container = styled.div`
@@ -27,6 +29,7 @@ const CoinsList = styled.ul``;
 const Coin = styled.li`
   background-color: white;
   color: ${(props) => props.theme.bgColor};
+  font-weight: bold;
   margin-bottom: 10px;
   padding: 20px;
   border-radius: 15px;
@@ -46,8 +49,11 @@ const Coin = styled.li`
 const Loader = styled.span`
   text-align: center;
   display: block;
-  margin-top: 20px;
-  font-size: 24px;
+  margin-top: 50px;
+  img{
+    width: 120px;
+    height: 120px;
+  }
 `;
 const Img = styled.img`
   width: 35px;
@@ -80,7 +86,8 @@ const Coins = () => {
         <Title>Crypto Tracker!</Title>
       </Header>
       {isLoading ? (
-        <Loader>Loading...</Loader>
+        <Loader><img src={Spinner} alt='Loading..' width='5%' /></Loader>
+        
       ) : (
         <CoinsList>
           {data?.slice(0, 100).map((coin) => (
@@ -94,7 +101,7 @@ const Coins = () => {
                   src={`https://coinicons-api.vercel.app/api/icon/${coin.symbol.toLowerCase()}`}
                   alt={coin.symbol}
                 />
-                {coin.name} &rarr;{" "}
+                {coin.name}
               </Link>
             </Coin>
           ))}
