@@ -24,7 +24,23 @@ const Header = styled.header`
   align-items: center;
 `;
 
-const CoinsList = styled.ul``;
+const SearchBlock = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 15px;
+  margin-bottom: 25px;
+  input{
+    width: 300px;
+    border: none;
+    border-radius: 15px;
+    padding: 10px 15px;
+    outline: none;
+    box-shadow: 3px 3px 5px 2px rgba(0, 0, 0, 0.05);
+  }
+`;
+
+const CoinsList = styled.ul`
+`;
 
 const Coin = styled.li`
   background-color: white;
@@ -56,7 +72,6 @@ const Coins = () => {
   // useQuery(queryKey, fetch fn, options obj)
   const { isLoading, data } = useQuery<ICoin[]>(["allCoins"], fetchCoins);
 
-  console.log(data);
   interface ICoin {
     // Interface Coin
     id: string;
@@ -77,25 +92,30 @@ const Coins = () => {
         <Title>Crypto Tracker!</Title>
       </Header>
       {isLoading ? (
-        <Loader/>
+        <Loader />
       ) : (
-        <CoinsList>
-          {data?.slice(0, 100).map((coin) => (
-            <Coin key={coin.id}>
-              <Link
-                to={`/${coin.id}`}
-                state={{ name: coin.name, rank: coin.rank }}
-              >
-                {/* state로 보이지 않는 정보 보내기 */}
-                <Img
-                  src={`https://coinicons-api.vercel.app/api/icon/${coin.symbol.toLowerCase()}`}
-                  alt={coin.symbol}
-                />
-                {coin.name}
-              </Link>
-            </Coin>
-          ))}
-        </CoinsList>
+        <>
+          <SearchBlock>
+            <input type='text' placeholder='search for ...'/>
+          </SearchBlock>
+          <CoinsList>
+            {data?.slice(0, 100).map((coin) => (
+              <Coin key={coin.id}>
+                <Link
+                  to={`/${coin.id}`}
+                  state={{ name: coin.name, rank: coin.rank }}
+                >
+                  {/* state로 보이지 않는 정보 보내기 */}
+                  <Img
+                    src={`https://coinicons-api.vercel.app/api/icon/${coin.symbol.toLowerCase()}`}
+                    alt={coin.symbol}
+                  />
+                  {coin.name}
+                </Link>
+              </Coin>
+            ))}
+          </CoinsList>
+        </>
       )}
     </Container>
   );
