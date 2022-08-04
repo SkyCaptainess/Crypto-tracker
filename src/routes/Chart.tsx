@@ -3,6 +3,8 @@ import { useQuery } from "@tanstack/react-query";
 import { fetchCoinHistory } from "../api";
 import ApexChart from "react-apexcharts"; // Chart라는 컴포넌트가 이미 존재 => 다른 이름으로 import
 import Loader from "../Loader";
+import { useRecoilValue } from "recoil";
+import { isDarkAtom } from "../atoms";
 
 /*
 1. 보여줄 암호화폐 종류가 무엇인지를 받아옴
@@ -28,6 +30,7 @@ interface IHistorical {
 }
 
 const Chart = ({ coinId }: IChart) => {
+  const isDark = useRecoilValue(isDarkAtom);
   const { isLoading: chartLoading, data: chartData } = useQuery<IHistorical[]>(
     ["chart", "ohlcv"],
     () => fetchCoinHistory(coinId),
@@ -61,7 +64,7 @@ const Chart = ({ coinId }: IChart) => {
             },
           ]}
           options={{
-            theme: { mode: "dark" },
+            theme: { mode: isDark ? "dark" : "light" },
             chart: {
               type: "candlestick",
               height: 350,

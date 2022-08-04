@@ -3,6 +3,8 @@ import { useQuery } from "@tanstack/react-query";
 import { fetchCoinHistory } from "../api";
 import ApexChart from "react-apexcharts";
 import Loader from "../Loader";
+import { useRecoilValue } from "recoil";
+import { isDarkAtom } from "../atoms";
 
 interface IPrice {
   coinId?: string;
@@ -20,6 +22,7 @@ interface IHistorical {
 }
 
 const Price = ({ coinId }: IPrice) => {
+  const isDark = useRecoilValue(isDarkAtom);
   const { isLoading: priceLoading, data: priceData } = useQuery<IHistorical[]>(
     ["price", "ohlcv"],
     () => fetchCoinHistory(coinId),
@@ -42,7 +45,7 @@ const Price = ({ coinId }: IPrice) => {
             },
           ]}
           options={{
-            theme: { mode: "dark" },
+            theme: { mode: isDark ? "dark" : "light" },
             chart: {
               height: 500,
               width: 500,
