@@ -89,44 +89,6 @@ const Chart = ({ coinId }: IChart) => {
                 },
               },
             },
-            tooltip: {
-              // 마우스 올리면 보이는 정보
-              enabled: true,
-              y: [
-                {
-                  formatter: function (y) {
-                    if (typeof y !== "undefined") {
-                      return  "open: " + y.toFixed(2);
-                    }
-                    return y;
-                  },
-                },
-                {
-                  formatter: function (y) {
-                    if (typeof y !== "undefined") {
-                      return  "high: " + y.toFixed(2);
-                    }
-                    return y;
-                  },
-                },
-                {
-                  formatter: function (y) {
-                    if (typeof y !== "undefined") {
-                      return  "low: " + y.toFixed(2);
-                    }
-                    return y;
-                  },
-                },
-                {
-                  formatter: function (y) {
-                    if (typeof y !== "undefined") {
-                      return  "close: " + y.toFixed(2);
-                    }
-                    return y;
-                  },
-                },
-              ],
-            },
           }}
         />
       )}
