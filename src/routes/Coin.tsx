@@ -13,7 +13,7 @@ import Price from "./Price";
 import { fetchCoinInfo, fetchCoinTickers } from "../api";
 import { useQuery } from "@tanstack/react-query";
 import { Helmet } from "react-helmet";
-import Spinner from '../img/spinner.gif';
+import Loader from "../Loader";
 
 const Title = styled.h1`
   color: ${(props) => props.theme.accentColor};
@@ -36,20 +36,10 @@ const Header = styled.header`
     font-size: 16px;
     left: 3px;
     bottom: 30px;
-    background-color: #9b59b6;
+    background-color: ${props => props.theme.accentColor};
     padding: 5px;
     border-radius: 5px;
     cursor: pointer;
-  }
-`;
-
-const Loader = styled.span`
-  text-align: center;
-  display: block;
-  margin-top: 50px;
-  img{
-    width: 120px;
-    height: 120px;
   }
 `;
 
@@ -57,6 +47,7 @@ const Overview = styled.div`
   display: flex;
   justify-content: space-between;
   background-color: rgba(0, 0, 0, 0.5);
+  color: whitesmoke;
   padding: 10px 20px;
   border-radius: 10px;
 `;
@@ -86,9 +77,9 @@ const Tab = styled.span<{ isActive: boolean }>`
   text-align: center;
   text-transform: uppercase;
   font-size: 12px;
-  font-weight: 400;
+  font-weight: 600;
   background-color: rgba(0, 0, 0, 0.5);
-  padding: 7px 0px;
+  padding: 10px 0px;
   border-radius: 10px;
   color: ${(props) =>
     props.isActive ? props.theme.accentColor : props.theme.textColor};
@@ -199,7 +190,7 @@ const Coin = () => {
         </Title>
       </Header>
       {loading ? (
-        <Loader><img src={Spinner} alt='Loading..' width='5%' /></Loader>
+        <Loader/>
       ) : (
         <>
           <Overview>

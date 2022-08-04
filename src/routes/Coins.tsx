@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { fetchCoins } from "./../api";
 import { Helmet } from "react-helmet";
-import Spinner from '../img/spinner.gif';
+import Loader from "../Loader";
 
 const Title = styled.h1`
   color: ${(props) => props.theme.accentColor};
@@ -28,7 +28,7 @@ const CoinsList = styled.ul``;
 
 const Coin = styled.li`
   background-color: white;
-  color: ${(props) => props.theme.bgColor};
+  color: black;
   font-weight: bold;
   margin-bottom: 10px;
   padding: 20px;
@@ -46,15 +46,6 @@ const Coin = styled.li`
   }
 `;
 
-const Loader = styled.span`
-  text-align: center;
-  display: block;
-  margin-top: 50px;
-  img{
-    width: 120px;
-    height: 120px;
-  }
-`;
 const Img = styled.img`
   width: 35px;
   height: 35px;
@@ -86,8 +77,7 @@ const Coins = () => {
         <Title>Crypto Tracker!</Title>
       </Header>
       {isLoading ? (
-        <Loader><img src={Spinner} alt='Loading..' width='5%' /></Loader>
-        
+        <Loader/>
       ) : (
         <CoinsList>
           {data?.slice(0, 100).map((coin) => (

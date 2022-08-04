@@ -2,6 +2,7 @@ import React from "react";
 import { useQuery } from "@tanstack/react-query";
 import { fetchCoinHistory } from "../api";
 import ApexChart from "react-apexcharts";
+import Loader from "../Loader";
 
 interface IPrice {
   coinId?: string;
@@ -29,7 +30,7 @@ const Price = ({ coinId }: IPrice) => {
   return (
     <div>
       {priceLoading || !priceData ? (
-        "Loading..."
+        <Loader/>
       ) : 
       (
         <ApexChart

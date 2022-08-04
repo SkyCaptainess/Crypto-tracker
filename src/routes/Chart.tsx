@@ -2,6 +2,7 @@ import React from "react";
 import { useQuery } from "@tanstack/react-query";
 import { fetchCoinHistory } from "../api";
 import ApexChart from "react-apexcharts"; // Chart라는 컴포넌트가 이미 존재 => 다른 이름으로 import
+import Loader from "../Loader";
 
 /*
 1. 보여줄 암호화폐 종류가 무엇인지를 받아옴
@@ -27,17 +28,18 @@ interface IHistorical {
 }
 
 const Chart = ({ coinId }: IChart) => {
-  const { isLoading: chartLoading, data: chartData } = useQuery<IHistorical[]>(['chart', "ohlcv"], () =>
-    fetchCoinHistory(coinId),
+  const { isLoading: chartLoading, data: chartData } = useQuery<IHistorical[]>(
+    ["chart", "ohlcv"],
+    () => fetchCoinHistory(coinId),
     {
-        refetchInterval: 5000, // 5초마다 refetch => 차트 업데이트
+      refetchInterval: 5000, // 5초마다 refetch => 차트 업데이트
     }
   );
 
   return (
     <div>
       {chartLoading || !chartData ? (
-        "Loading..."
+        <Loader />
       ) : (
         <ApexChart
           type="candlestick"
@@ -74,7 +76,7 @@ const Chart = ({ coinId }: IChart) => {
               axisTicks: { show: false }, // x축 scale 삭제
             },
             yaxis: {
-              show: false
+              show: false,
             },
             plotOptions: {
               candlestick: {
