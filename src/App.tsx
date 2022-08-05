@@ -82,6 +82,7 @@ const ThemeIcon = styled.button`
     width: 35px;
     height: 35px;
     border-radius: 25px;
+    cursor: pointer;
   }
 `;
 
