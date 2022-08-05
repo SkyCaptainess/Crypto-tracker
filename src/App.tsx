@@ -1,9 +1,11 @@
 import { ThemeProvider } from "styled-components";
 import { darkTheme, lightTheme } from "./theme";
-import { createGlobalStyle } from "styled-components";
+import styled, { createGlobalStyle } from "styled-components";
 import Router from "./Router";
-import { useRecoilValue } from "recoil";
+import { useRecoilState } from "recoil";
 import { isDarkAtom } from "./atoms";
+import moon from "./img/moon.png";
+import sun from "./img/sun.png";
 
 const GlobalStyle = createGlobalStyle`
   @import url('https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@300;400&display=swap');
@@ -68,13 +70,31 @@ a {
 }
 `;
 
-function App() {
-  const isDark = useRecoilValue(isDarkAtom);
+const ThemeIcon = styled.button`
+  position: absolute;
+  top: 30px;
+  right: 40px;
+  background-color: white;
+  border: none;
+  border-radius: 50%;
+  padding: 3px;
+  img {
+    width: 35px;
+    height: 35px;
+    border-radius: 25px;
+  }
+`;
 
+function App() {
+  const [isDark, setDarkAtom] = useRecoilState(isDarkAtom);
+  const toggleDarkAtom = () => setDarkAtom((prev) => !prev);
   return (
     <>
       <ThemeProvider theme={isDark ? darkTheme : lightTheme}>
         <GlobalStyle />
+        <ThemeIcon onClick={toggleDarkAtom}>
+          <img src={isDark ? sun : moon} alt="theme" />
+        </ThemeIcon>
         <Router />
       </ThemeProvider>
     </>

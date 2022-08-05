@@ -36,7 +36,7 @@ const Header = styled.header`
     font-size: 16px;
     left: 3px;
     bottom: 30px;
-    background-color: ${props => props.theme.accentColor};
+    background-color: ${(props) => props.theme.accentColor};
     padding: 5px;
     border-radius: 5px;
     cursor: pointer;
@@ -154,6 +154,7 @@ interface PriceData {
 const Coin = () => {
   const navigate = useNavigate();
   const goBack = () => navigate("/");
+
   const priceMatch = useMatch("/:coinId/price");
   const chartMatch = useMatch("/:coinId/chart");
 
@@ -183,14 +184,14 @@ const Coin = () => {
         </title>
       </Helmet>
       <Header>
-        {/* 홈페이지에서 이동한 경우 / 아닌 경우 모두 name 렌더링 */}
         <span onClick={goBack}>Back</span>
+        {/* 홈페이지에서 이동한 경우 / 아닌 경우 모두 name 렌더링 */}
         <Title>
           {state?.name ? state.name : loading ? "..." : infoData?.name}
         </Title>
       </Header>
       {loading ? (
-        <Loader/>
+        <Loader />
       ) : (
         <>
           <Overview>
