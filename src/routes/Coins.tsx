@@ -12,6 +12,7 @@ const Title = styled.h1`
   color: ${(props) => props.theme.accentColor};
   font-size: 42px;
   margin-bottom: 5px;
+  text-shadow: 3px 4px 7px #772c014b;
 `;
 
 const Container = styled.div`
