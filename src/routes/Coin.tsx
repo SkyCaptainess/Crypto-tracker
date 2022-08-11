@@ -64,6 +64,7 @@ const OverviewItem = styled.div`
 `;
 const Description = styled.p`
   margin: 20px 0px;
+  line-height: 1.2rem;
 `;
 
 const Tabs = styled.div`

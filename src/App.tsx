@@ -70,17 +70,18 @@ a {
 }
 `;
 
-const ThemeIcon = styled.button`
+const ThemeIcon = styled.div`
   position: absolute;
-  top: 30px;
+  z-index: 1;
+  top: 35px;
   right: 40px;
   background-color: white;
   border: none;
   border-radius: 50%;
-  padding: 3px;
+  padding: 5px;
   img {
-    width: 35px;
-    height: 35px;
+    width: 25px;
+    height: 25px;
     border-radius: 25px;
     cursor: pointer;
   }

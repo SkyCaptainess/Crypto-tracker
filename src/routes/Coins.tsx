@@ -1,10 +1,13 @@
 import { useQuery } from "@tanstack/react-query";
-import React from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { fetchCoins } from "./../api";
 import { Helmet } from "react-helmet";
 import Loader from "../Loader";
+import { ICoin, query, coins } from "../atoms";
+import { useSetRecoilState, useRecoilValue } from "recoil";
+import { coinList } from './../atoms';
 
 const Title = styled.h1`
   color: ${(props) => props.theme.accentColor};
@@ -29,7 +32,7 @@ const SearchBlock = styled.div`
   justify-content: center;
   margin-top: 15px;
   margin-bottom: 25px;
-  input{
+  input {
     width: 300px;
     border: none;
     border-radius: 15px;
@@ -39,8 +42,7 @@ const SearchBlock = styled.div`
   }
 `;
 
-const CoinsList = styled.ul`
-`;
+const CoinsList = styled.ul``;
 
 const Coin = styled.li`
   background-color: white;
@@ -71,17 +73,15 @@ const Img = styled.img`
 const Coins = () => {
   // useQuery(queryKey, fetch fn, options obj)
   const { isLoading, data } = useQuery<ICoin[]>(["allCoins"], fetchCoins);
-
-  interface ICoin {
-    // Interface Coin
-    id: string;
-    name: string;
-    symbol: string;
-    rank: number;
-    is_new: boolean;
-    is_active: boolean;
-    type: string;
-  }
+  const setCoins = useSetRecoilState(coins);
+  useEffect(() => {
+    setCoins(data?.slice(0, 100));
+  }, [data]);
+  const setQuery = useSetRecoilState(query);
+  const onChange = (e: React.FormEvent<HTMLInputElement>) => {
+    setQuery(e.currentTarget.value);
+  };
+  const list = useRecoilValue(coinList);
 
   return (
     <Container>
@@ -89,17 +89,21 @@ const Coins = () => {
         <title>Crypto Tracker!</title>
       </Helmet>
       <Header>
-        <Title>Crypto Tracker!</Title>
+        <Title>Crypto Tracker</Title>
       </Header>
       {isLoading ? (
         <Loader />
       ) : (
         <>
           <SearchBlock>
-            <input type='text' placeholder='search for ...'/>
+            <input
+              onChange={onChange}
+              type="text"
+              placeholder="search for ..."
+            />
           </SearchBlock>
           <CoinsList>
-            {data?.slice(0, 100).map((coin) => (
+            {list?.map((coin) => (
               <Coin key={coin.id}>
                 <Link
                   to={`/${coin.id}`}
