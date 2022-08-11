@@ -37,7 +37,7 @@ const Header = styled.header`
     left: 3px;
     bottom: 30px;
     background-color: ${(props) => props.theme.accentColor};
-    padding: 5px;
+    padding: 7px;
     border-radius: 5px;
     cursor: pointer;
   }

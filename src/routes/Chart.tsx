@@ -41,7 +41,7 @@ const Chart = ({ coinId }: IChart) => {
 
   return (
     <div>
-      {chartLoading || !chartData ? (
+      {chartLoading || !chartData || chartData?.length === undefined ? (
         <Loader />
       ) : (
         <ApexChart

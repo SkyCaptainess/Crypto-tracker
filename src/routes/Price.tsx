@@ -30,9 +30,11 @@ const Price = ({ coinId }: IPrice) => {
       refetchInterval: 5000, // 5초마다 refetch => 차트 업데이트
     }
   );
+
+
   return (
     <div>
-      {priceLoading || !priceData ? (
+      {priceLoading || !priceData || priceData?.length === undefined ? (
         <Loader/>
       ) : 
       (
