@@ -191,7 +191,7 @@ const Coin = () => {
           {state?.name ? state.name : loading ? "..." : infoData?.name}
         </Title>
       </Header>
-      {loading ? (
+      {loading || !tickersData ? (
         <Loader />
       ) : (
         <>
