@@ -5,9 +5,8 @@ import styled from "styled-components";
 import { fetchCoins } from "./../api";
 import { Helmet } from "react-helmet";
 import Loader from "../Loader";
-import { ICoin, query, coins } from "../atoms";
+import { ICoin, query, coins, coinList } from "../atoms";
 import { useSetRecoilState, useRecoilValue } from "recoil";
-import { coinList } from './../atoms';
 
 const Title = styled.h1`
   color: ${(props) => props.theme.accentColor};
