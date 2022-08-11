@@ -5,7 +5,7 @@ import Coins from "./routes/Coins";
 
 const Router = () => {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename={process.env.PUBLIC_URL}>
       <>
         <Routes>
           <Route path="/" element={<Coins />} />

@@ -1,3 +1,4 @@
+import React from "react";
 import { ThemeProvider } from "styled-components";
 import { darkTheme, lightTheme } from "./theme";
 import styled, { createGlobalStyle } from "styled-components";
